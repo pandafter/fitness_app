@@ -4,44 +4,33 @@ class CategoryModel {
   String name;
   String iconPath;
   Color boxColor;
+  bool boxIsSelected;
 
   CategoryModel({
     required this.name,
     required this.iconPath,
-    required this.boxColor
+    required this.boxColor,
+    required this.boxIsSelected,
   });
 
-  static List<CategoryModel> getCategories() {
-    List<CategoryModel> categories = [];
-
-    categories.add(
-      CategoryModel(
-        name: 'Salad', 
-        iconPath: 'assets/icons/plate.svg', 
-        boxColor: const Color(0xff92A3FD))
+  // Convert JSON to CategoryModel
+  factory CategoryModel.fromJson(Map<String, dynamic> json) {
+    return CategoryModel(
+      name: json['name'] ?? '',
+      iconPath: json['iconPath'] ?? '',
+      boxColor: Color(int.parse(json['boxColor'].replaceAll('#', '0xff'))),
+      boxIsSelected: json['boxIsSelected'] ?? false,
     );
+  }
 
-    categories.add(
-      CategoryModel(
-        name: 'Cake', 
-        iconPath: 'assets/icons/pancakes.svg', 
-        boxColor: const Color.fromARGB(255, 214, 146, 253))
-    );
-
-    categories.add(
-      CategoryModel(
-        name: 'Pie', 
-        iconPath: 'assets/icons/pie.svg', 
-        boxColor: const Color.fromARGB(255, 251, 253, 146))
-    );
-
-    categories.add(
-      CategoryModel(
-        name: 'Smoothies', 
-        iconPath: 'assets/icons/orange-snacks.svg', 
-        boxColor: const Color.fromARGB(255, 148, 253, 146))
-    );
-
-    return categories;
+  // Convert CategoryModel to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'iconPath': iconPath,
+      'boxColor':
+          boxColor.value.toRadixString(16).padLeft(8, '0').toUpperCase(),
+      'boxIsSelected': boxIsSelected,
+    };
   }
 }

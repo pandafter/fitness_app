@@ -1,0 +1,11 @@
+@fitnessapi_HostAddress = http://localhost:5158
+
+GET {{fitnessapi_HostAddress}}/api/fitnessdata/popular-diets
+Accept: application/json
+
+GET {{fitnessapi_HostAddress}}/api/fitnessdata/diets
+Accept: application/json
+
+
+GET {{fitnessapi_HostAddress}}/api/fitnessdata/categories
+Accept: application/json

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class DietModel {
   String name;
   String iconPath;
@@ -8,8 +7,7 @@ class DietModel {
   String duration;
   String calorie;
   Color boxColor;
-  bool viewIsSelected;
-
+  bool boxIsSelected;
 
   DietModel({
     required this.name,
@@ -18,38 +16,33 @@ class DietModel {
     required this.duration,
     required this.calorie,
     required this.boxColor,
-    required this.viewIsSelected
+    required this.boxIsSelected,
   });
 
-  static List<DietModel> getDiet() {
-    List<DietModel> diets = [];
-
-    diets.add(
-      DietModel(
-        name: 'Honey', 
-        iconPath: 'assets/icons/honey-pancakes.svg', 
-        level: 'Easy', 
-        duration: '30 mins', 
-        calorie: '180 kCal',
-        boxColor: const Color.fromARGB(255, 253, 180, 146),
-        viewIsSelected: true
-        )
+  // Convert JSON to DietModel
+  factory DietModel.fromJson(Map<String, dynamic> json) {
+    return DietModel(
+      name: json['name'] ?? '',
+      iconPath: json['iconPath'] ?? '',
+      level: json['level'] ?? '',
+      duration: json['duration'] ?? '',
+      calorie: json['calorie'] ?? '',
+      boxColor: Color(int.parse(json['boxColor'].replaceAll('#', '0xff'))),
+      boxIsSelected: json['boxIsSelected'] ?? false,
     );
-
-    diets.add(
-      DietModel(
-        name: 'Canai Bread', 
-        iconPath: 'assets/icons/canai-bread.svg', 
-        level: 'Easy', 
-        duration: '20 mins', 
-        calorie: '230 kCal',
-        boxColor: const Color.fromARGB(255, 251, 146, 253),
-        viewIsSelected: false
-        )
-    );
-
-
-    return diets;
   }
 
+  // Convert DietModel to JSON
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'iconPath': iconPath,
+      'level': level,
+      'duration': duration,
+      'calorie': calorie,
+      'boxColor':
+          boxColor.value.toRadixString(16).padLeft(8, '0').toUpperCase(),
+      'boxIsSelected': boxIsSelected,
+    };
+  }
 }
